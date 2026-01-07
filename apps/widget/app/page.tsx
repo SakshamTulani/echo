@@ -1,8 +1,8 @@
 "use client";
 
 import { useMutation, useQuery } from "convex/react";
-import { Input } from "@workspace/ui/components/input";
 import { api } from "@workspace/backend/_generated/api";
+import { Input } from "@workspace/ui/components/input";
 import { Button } from "@workspace/ui/components/button";
 import { useState } from "react";
 
@@ -12,7 +12,7 @@ export default function Page() {
   const [name, setName] = useState("");
   return (
     <div className="flex flex-col items-center justify-center min-h-svh">
-      <p>app/web</p>
+      <p>app/widget</p>
       <Input
         className="max-w-sm w-full mx-auto my-2"
         value={name}
