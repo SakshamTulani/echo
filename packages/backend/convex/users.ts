@@ -20,6 +20,7 @@ export const add = mutation({
     if (!orgId) {
       throw new Error("Missing Organization");
     }
+    throw new Error("Not implemented");
     const addedUser = await ctx.db.insert("users", { name: args.name });
     return addedUser;
   },
