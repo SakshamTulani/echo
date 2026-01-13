@@ -17,7 +17,10 @@ export default function Page() {
     isSpeaking,
     startCall,
     transcript,
-  } = useVapi(vapiTestData);
+  } = useVapi({
+    apiKey: vapiTestData.apiKey ?? "",
+    assistantId: vapiTestData.assistantId ?? "",
+  });
 
   return (
     <div className="flex flex-col items-center justify-center min-h-svh">
