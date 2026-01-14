@@ -1,27 +1,50 @@
 "use client";
 
-import { useMutation, useQuery } from "convex/react";
-import { api } from "@workspace/backend/_generated/api";
-import { Input } from "@workspace/ui/components/input";
+import { useVapi } from "@/modules/widget/hooks/use-vapi";
 import { Button } from "@workspace/ui/components/button";
-import { useState } from "react";
+
+// This is for Testing only this will be white labeled later
+const vapiTestData = {
+  apiKey: process.env.NEXT_PUBLIC_VAPI_API_KEY,
+  assistantId: process.env.NEXT_PUBLIC_ASSISTANT_ID,
+};
 
 export default function Page() {
-  const users = useQuery(api.users.getMany);
-  const addUser = useMutation(api.users.add);
-  const [name, setName] = useState("");
+  const {
+    endCall,
+    isConnected,
+    isConnecting,
+    isSpeaking,
+    startCall,
+    transcript,
+  } = useVapi({
+    apiKey: vapiTestData.apiKey ?? "",
+    assistantId: vapiTestData.assistantId ?? "",
+  });
+
   return (
     <div className="flex flex-col items-center justify-center min-h-svh">
-      <p>app/widget</p>
-      <Input
-        className="max-w-sm w-full mx-auto my-2"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-      />
-      <Button onClick={() => addUser({ name: name.trim() })}>Add User</Button>
-      <p className="max-w-sm w-full mx-auto">
-        {JSON.stringify(users, null, 2)}
-      </p>
+      <Button onClick={() => startCall()}>Start Call</Button>
+      <Button onClick={() => endCall()} variant={"destructive"}>
+        End Call
+      </Button>
+      <div className="flex flex-col gap-4 mt-4">
+        <div className="flex flex-col gap-2">
+          <div className="text-sm font-semibold">Is Connected</div>
+          <div className="text-sm">{isConnected ? "Yes" : "No"}</div>
+        </div>
+        <div className="flex flex-col gap-2">
+          <div className="text-sm font-semibold">Is Connecting</div>
+          <div className="text-sm">{isConnecting ? "Yes" : "No"}</div>
+        </div>
+        <div className="flex flex-col gap-2">
+          <div className="text-sm font-semibold">Is Speaking</div>
+          <div className="text-sm">{isSpeaking ? "Yes" : "No"}</div>
+        </div>
+      </div>
+
+      <p>Transcript</p>
+      {JSON.stringify(transcript, null, 2)}
     </div>
   );
 }
