@@ -9,7 +9,7 @@ const schema = defineSchema({
     email: v.string(),
     organizationId: v.string(),
     expiresAt: v.number(),
-    metaData: v.optional(
+    metadata: v.optional(
       v.object({
         userAgent: v.optional(v.string()),
         language: v.optional(v.string()),
