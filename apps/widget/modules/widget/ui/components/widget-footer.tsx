@@ -1,9 +1,11 @@
 import { Button } from "@workspace/ui/components/button";
 import { cn } from "@workspace/ui/lib/utils";
 import { HomeIcon, InboxIcon } from "lucide-react";
+import { useAtomValue } from "jotai";
+import { screenAtom } from "../../atoms/widget-atoms";
 
 export const WidgetFooter = () => {
-  const screen = "selection";
+  const screen = useAtomValue(screenAtom);
   return (
     <footer className="flex items-center justify-between border-t bg-background">
       <Button
