@@ -36,7 +36,7 @@ export const WidgetAuthScreen = () => {
     if (!organizationId) {
       return;
     }
-    const metadata: Doc<"contactSessions">["metaData"] = {
+    const metadata: Doc<"contactSessions">["metadata"] = {
       userAgent: navigator.userAgent,
       language: navigator.language,
       languages: navigator.languages?.join(","),
@@ -71,8 +71,7 @@ export const WidgetAuthScreen = () => {
       <Form {...form}>
         <form
           className="flex flex-1 flex-col gap-y-4 p-4"
-          onSubmit={form.handleSubmit(onSubmit)}
-        >
+          onSubmit={form.handleSubmit(onSubmit)}>
           <FormField
             control={form.control}
             name="name"
@@ -114,8 +113,7 @@ export const WidgetAuthScreen = () => {
           <Button
             disabled={form.formState.isSubmitting}
             size={"lg"}
-            type="submit"
-          >
+            type="submit">
             Continue
           </Button>
         </form>
