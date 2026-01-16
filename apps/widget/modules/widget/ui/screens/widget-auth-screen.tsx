@@ -15,6 +15,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { api } from "@workspace/backend/_generated/api";
 import { useMutation } from "convex/react";
 import { Doc } from "@workspace/backend/_generated/dataModel";
+import { useAtomValue, useSetAtom } from "jotai";
+import {
+  contactSessionIdAtomFamily,
+  organizationIdAtom,
+} from "../../atoms/widget-atoms";
 
 const formSchema = z.object({
   name: z.string().min(1, "Name is required"),
@@ -24,6 +29,10 @@ const formSchema = z.object({
 const organizationId = "123";
 
 export const WidgetAuthScreen = () => {
+  const organizationId = useAtomValue(organizationIdAtom);
+  const setContactSessionId = useSetAtom(
+    contactSessionIdAtomFamily(organizationId ?? ""),
+  );
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -55,7 +64,7 @@ export const WidgetAuthScreen = () => {
       metadata,
       organizationId,
     });
-    console.log(contactSessionId);
+    setContactSessionId(contactSessionId);
   };
 
   const createContactSession = useMutation(api.public.contactSessions.create);
@@ -71,7 +80,8 @@ export const WidgetAuthScreen = () => {
       <Form {...form}>
         <form
           className="flex flex-1 flex-col gap-y-4 p-4"
-          onSubmit={form.handleSubmit(onSubmit)}>
+          onSubmit={form.handleSubmit(onSubmit)}
+        >
           <FormField
             control={form.control}
             name="name"
@@ -113,7 +123,8 @@ export const WidgetAuthScreen = () => {
           <Button
             disabled={form.formState.isSubmitting}
             size={"lg"}
-            type="submit">
+            type="submit"
+          >
             Continue
           </Button>
         </form>
