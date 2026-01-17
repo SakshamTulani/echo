@@ -30,12 +30,12 @@ export const WidgetLoadingScreen = ({
   const setScreen = useSetAtom(screenAtom);
 
   const contactSessionId = useAtomValue(
-    contactSessionIdAtomFamily(organizationId || ""),
+    contactSessionIdAtomFamily(organizationId || "")
   );
 
   const validateOrganization = useAction(api.public.organizations.validate);
   const validateContactSession = useMutation(
-    api.public.contactSessions.validate,
+    api.public.contactSessions.validate
   );
 
   useEffect(() => {
@@ -85,7 +85,7 @@ export const WidgetLoadingScreen = ({
       setStep("done");
       return;
     }
-    setLoadingMessage("validating organization ID...");
+    setLoadingMessage("validating contact session...");
     validateContactSession({
       contactSessionId,
     })
