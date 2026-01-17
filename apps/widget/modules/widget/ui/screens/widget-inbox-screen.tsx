@@ -18,6 +18,7 @@ import { api } from "@workspace/backend/_generated/api";
 import { formatDistanceToNow } from "date-fns";
 import { useInfiniteScroll } from "@workspace/ui/hooks/use-infinite-scroll";
 import { InfiniteScrollTrigger } from "@workspace/ui/components/infinite-scroll-trigger";
+import { cn } from "@workspace/ui/lib/utils";
 
 export const WidgetInboxScreen = () => {
   const setScreen = useSetAtom(screenAtom);
@@ -57,7 +58,7 @@ export const WidgetInboxScreen = () => {
         </div>
       </WidgetHeader>
       <div className="flex flex-1 flex-col gap-y-2 overflow-y-auto p-4">
-        {conversations.results.length > 0 &&
+        {conversations.results.length > 0 ? (
           conversations.results.map((conversation) => (
             <Button
               key={conversation._id}
@@ -71,12 +72,20 @@ export const WidgetInboxScreen = () => {
                 <div className="flex w-full items-center justify-between gap-x-2">
                   <p className="text-muted-foreground text-xs">Chat</p>
                   <p className="text-muted-foreground text-xs">
-                    {formatDistanceToNow(new Date(conversation._creationTime))}
+                    {formatDistanceToNow(new Date(conversation._creationTime), {
+                      addSuffix: true,
+                    })}
                   </p>
                 </div>
                 <div className="flex w-full items-center justify-between gap-x-2">
-                  <p className="truncate text-sm">
-                    {conversation.lastMessage?.text}
+                  <p
+                    className={cn(
+                      "truncate text-sm",
+                      conversation.lastMessage?.text
+                        ? ""
+                        : "text-muted-foreground",
+                    )}>
+                    {conversation.lastMessage?.text || "No messages yet"}
                   </p>
                   <ConversationStatusIcon
                     status={conversation.status}
@@ -85,7 +94,14 @@ export const WidgetInboxScreen = () => {
                 </div>
               </div>
             </Button>
-          ))}
+          ))
+        ) : (
+          <div className="flex h-full items-center justify-center">
+            <p className="text-center text-muted-foreground">
+              No conversations yet
+            </p>
+          </div>
+        )}
         <InfiniteScrollTrigger
           ref={topElementRef}
           canLoadMore={canLoadMore}
