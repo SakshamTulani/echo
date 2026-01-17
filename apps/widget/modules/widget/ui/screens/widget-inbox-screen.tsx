@@ -58,7 +58,7 @@ export const WidgetInboxScreen = () => {
         </div>
       </WidgetHeader>
       <div className="flex flex-1 flex-col gap-y-2 overflow-y-auto p-4">
-        {conversations.results.length > 0 ? (
+        {conversations.results.length > 0 &&
           conversations.results.map((conversation) => (
             <Button
               key={conversation._id}
@@ -94,14 +94,7 @@ export const WidgetInboxScreen = () => {
                 </div>
               </div>
             </Button>
-          ))
-        ) : (
-          <div className="flex h-full items-center justify-center">
-            <p className="text-center text-muted-foreground">
-              No conversations yet
-            </p>
-          </div>
-        )}
+          ))}
         <InfiniteScrollTrigger
           ref={topElementRef}
           canLoadMore={canLoadMore}
