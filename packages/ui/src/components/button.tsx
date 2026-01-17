@@ -21,6 +21,10 @@ const buttonVariants = cva(
         link: "text-primary underline-offset-4 hover:underline",
         transparent:
           "bg-transparent text-primary-foreground hover:bg-transparent hover:text-primary-foreground/80",
+        tertiary:
+          "bg-gradient-to-b from-green-500 to-green-600 text-white hover:to-green-600/90",
+        warning:
+          "bg-gradient-to-b from-yellow-500 to-yellow-600 text-white hover:to-yellow-600/90",
       },
       size: {
         default: "h-9 px-4 py-2 has-[>svg]:px-3",
@@ -35,7 +39,7 @@ const buttonVariants = cva(
       variant: "default",
       size: "default",
     },
-  }
+  },
 );
 
 function Button({
