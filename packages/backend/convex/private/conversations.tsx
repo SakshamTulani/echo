@@ -5,6 +5,59 @@ import { type MessageDoc } from "@convex-dev/agent";
 import { paginationOptsValidator, type PaginationResult } from "convex/server";
 import type { Doc } from "../_generated/dataModel";
 
+export const getOne = query({
+  args: {
+    conversationId: v.id("conversations"),
+  },
+  handler: async (ctx, args) => {
+    const identity = await ctx.auth.getUserIdentity();
+    if (!identity) {
+      throw new ConvexError({
+        code: "UNAUTHENTICATED",
+        message: "User not authenticated",
+      });
+    }
+
+    const organizationId = identity.orgId as string;
+
+    if (!organizationId) {
+      throw new ConvexError({
+        code: "UNAUTHORIZED",
+        message: "Organization not found",
+      });
+    }
+
+    const conversation = await ctx.db.get(args.conversationId);
+
+    if (!conversation) {
+      throw new ConvexError({
+        code: "NOT_FOUND",
+        message: "Conversation not found",
+      });
+    }
+
+    if (conversation.organizationId !== organizationId) {
+      throw new ConvexError({
+        code: "UNAUTHORIZED",
+        message: "Invalid Organization ID",
+      });
+    }
+
+    const contactSession = await ctx.db.get(conversation.contactSessionId);
+    if (!contactSession) {
+      throw new ConvexError({
+        code: "NOT_FOUND",
+        message: "Contact Session not found",
+      });
+    }
+
+    return {
+      ...conversation,
+      contactSession,
+    };
+  },
+});
+
 export const getMany = query({
   args: {
     paginationOpts: paginationOptsValidator,
