@@ -1,7 +1,7 @@
 "use client";
 
 import { use } from "react";
-import { WidgetView } from "@/modules/widget/ui/views/wideget-view";
+import { WidgetView } from "@/modules/widget/ui/views/widget-view";
 import { NextPage } from "next";
 
 interface Props {
