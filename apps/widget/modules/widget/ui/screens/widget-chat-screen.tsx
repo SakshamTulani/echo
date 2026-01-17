@@ -19,7 +19,6 @@ import { z } from "zod";
 import {
   AIConversation,
   AIConversationContent,
-  AIConversationScrollButton,
 } from "@workspace/ui/components/ai/conversation";
 import {
   AIMessage,
@@ -34,6 +33,9 @@ import {
   AIInputToolbar,
   AIInputTools,
 } from "@workspace/ui/components/ai/input";
+import { useInfiniteScroll } from "@workspace/ui/hooks/use-infinite-scroll";
+import { InfiniteScrollTrigger } from "@workspace/ui/components/infinite-scroll-trigger";
+import { DicebearAvatar } from "@workspace/ui/components/dicebear-avatar";
 
 const formSchema = z.object({
   message: z.string().min(1, "Message cannot be empty"),
@@ -69,6 +71,13 @@ export const WidgetChatScreen = () => {
       initialNumItems: 10,
     },
   );
+
+  const { topElementRef, handleLoadMore, canLoadMore, isLoadingMore } =
+    useInfiniteScroll({
+      status: messages.status,
+      loadMore: messages.loadMore,
+      loadSize: 10,
+    });
 
   const onBack = () => {
     setConversationId(null);
@@ -111,6 +120,12 @@ export const WidgetChatScreen = () => {
       </WidgetHeader>
       <AIConversation>
         <AIConversationContent>
+          <InfiniteScrollTrigger
+            canLoadMore={canLoadMore}
+            isLoadingMore={isLoadingMore}
+            onLoadMore={handleLoadMore}
+            ref={topElementRef}
+          />
           {toUIMessages(messages.results ?? [])?.map((message) => (
             <AIMessage
               from={message.role === "user" ? "user" : "assistant"}
@@ -118,7 +133,14 @@ export const WidgetChatScreen = () => {
               <AIMessageContent>
                 <AIResponse>{message.content}</AIResponse>
               </AIMessageContent>
-              {/* TODO: Add avatar component */}
+              {message.role === "assistant" && (
+                <DicebearAvatar
+                  seed="assistant"
+                  badgeImageUrl=""
+                  size={32}
+                  imageUrl="/logo.svg"
+                />
+              )}
             </AIMessage>
           ))}
         </AIConversationContent>

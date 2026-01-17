@@ -19,16 +19,16 @@ import { useAtomValue, useSetAtom } from "jotai";
 import {
   contactSessionIdAtomFamily,
   organizationIdAtom,
+  screenAtom,
 } from "../../atoms/widget-atoms";
 
 const formSchema = z.object({
   name: z.string().min(1, "Name is required"),
   email: z.string().email("Invalid email address"),
 });
-//TODO: For temp use only
-const organizationId = "123";
 
 export const WidgetAuthScreen = () => {
+  const setScreen = useSetAtom(screenAtom);
   const organizationId = useAtomValue(organizationIdAtom);
   const setContactSessionId = useSetAtom(
     contactSessionIdAtomFamily(organizationId ?? ""),
@@ -65,6 +65,7 @@ export const WidgetAuthScreen = () => {
       organizationId,
     });
     setContactSessionId(contactSessionId);
+    setScreen("selection");
   };
 
   const createContactSession = useMutation(api.public.contactSessions.create);
@@ -80,8 +81,7 @@ export const WidgetAuthScreen = () => {
       <Form {...form}>
         <form
           className="flex flex-1 flex-col gap-y-4 p-4"
-          onSubmit={form.handleSubmit(onSubmit)}
-        >
+          onSubmit={form.handleSubmit(onSubmit)}>
           <FormField
             control={form.control}
             name="name"
@@ -123,8 +123,7 @@ export const WidgetAuthScreen = () => {
           <Button
             disabled={form.formState.isSubmitting}
             size={"lg"}
-            type="submit"
-          >
+            type="submit">
             Continue
           </Button>
         </form>
