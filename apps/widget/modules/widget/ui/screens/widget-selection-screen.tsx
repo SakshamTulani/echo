@@ -14,6 +14,7 @@ import {
 import { api } from "@workspace/backend/_generated/api";
 import { useMutation } from "convex/react";
 import { useState } from "react";
+import { WidgetFooter } from "../components/widget-footer";
 
 export const WidgetSelectionScreen = () => {
   const setScreen = useSetAtom(screenAtom);
@@ -22,7 +23,7 @@ export const WidgetSelectionScreen = () => {
 
   const organizationId = useAtomValue(organizationIdAtom);
   const contactSessionId = useAtomValue(
-    contactSessionIdAtomFamily(organizationId || "")
+    contactSessionIdAtomFamily(organizationId || ""),
   );
 
   const createConversation = useMutation(api.public.conversations.create);
@@ -75,6 +76,7 @@ export const WidgetSelectionScreen = () => {
           <ChevronRightIcon />
         </Button>
       </div>
+      <WidgetFooter />
     </>
   );
 };
