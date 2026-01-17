@@ -12,10 +12,11 @@ export const contactSessionIdAtomFamily = atomFamily(
   (organizationId: string) => {
     return atomWithStorage<Id<"contactSessions"> | null>(
       `${CONTACT_SESSION_KEY}_${organizationId}`,
-      null,
+      null
     );
-  },
+  }
 );
 
 export const errorMessageAtom = atom<string | null>(null);
 export const loadingMessageAtom = atom<string | null>(null);
+export const conversationIdAtom = atom<Id<"conversations"> | null>(null);
