@@ -19,6 +19,11 @@ export const getOne = query({
     if (!conversation) {
       return null;
     }
+
+    if (conversation.contactSessionId !== args.contactSessionId) {
+      return null;
+    }
+
     return {
       _id: conversation._id,
       threadId: conversation.threadId,
@@ -40,6 +45,14 @@ export const create = mutation({
         message: "Session not found or expired",
       });
     }
+
+    if (session.organizationId !== args.organizationId) {
+      throw new ConvexError({
+        code: "UNAUTHORIZED",
+        message: "Session not authorized for this organization",
+      });
+    }
+
     // Todo: Replace once functionality is ready
     const threadId = "123";
 
