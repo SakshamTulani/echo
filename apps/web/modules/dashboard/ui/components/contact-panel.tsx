@@ -175,7 +175,7 @@ export function ContactPanel() {
             <div className="flex items-center gap-x-2">
               <h4 className="line-clamp-1">{contactSession.name}</h4>
             </div>
-            <p className="line-clamp-1 text-muted-foreground text-sm">
+            <p className=" truncate line-clamp-1 text-muted-foreground text-sm">
               {contactSession.email}
             </p>
           </div>
