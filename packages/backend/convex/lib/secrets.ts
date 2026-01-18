@@ -17,7 +17,7 @@ export function createSecretsManagerClient() {
   });
 }
 
-export async function getSecret(
+export async function getSecretValue(
   secretName: string,
 ): Promise<GetSecretValueCommandOutput> {
   const client = createSecretsManagerClient();
