@@ -139,8 +139,9 @@ export const ConversationIdView = ({
 
   return (
     <div className="flex h-full flex-col bg-muted">
-      <header className="flex items-center justify-between border-b bg-background p-2.5">
-        <Button size="sm" variant="ghost">
+      <header className="flex items-center justify-end-safe border-b bg-background p-2.5">
+        {/* TODO: Add conversation actions */}
+        <Button size="sm" variant="ghost" className="hidden">
           <MoreHorizontalIcon />
         </Button>
         {!!conversation && (
