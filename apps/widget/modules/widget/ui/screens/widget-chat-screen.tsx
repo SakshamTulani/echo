@@ -97,12 +97,12 @@ export const WidgetChatScreen = () => {
     if (!conversation || !contactSessionId) {
       return;
     }
+    form.reset();
     await createMessage({
       prompt: data.message,
       threadId: conversation.threadId,
       contactSessionId,
     });
-    form.reset();
   };
 
   return (
