@@ -130,7 +130,7 @@ function ConversationsPanel() {
                     )}
                   />
                   <DicebearAvatar
-                    seed={conversation._id}
+                    seed={conversation.contactSessionId}
                     size={40}
                     className="shrink-0"
                     badgeImageUrl={countryFlagUrl}
