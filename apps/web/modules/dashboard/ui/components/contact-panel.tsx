@@ -41,7 +41,7 @@ export function ContactPanel() {
   const parseUserAgent = useMemo(() => {
     return (userAgent?: string) => {
       if (!userAgent) {
-        return { browser: "Unknown, os: Unknown", device: "Unknown" };
+        return { browser: "Unknown", os: "Unknown", device: "Unknown" };
       }
       const browser = Bowser.getParser(userAgent);
       const result = browser.getResult();
