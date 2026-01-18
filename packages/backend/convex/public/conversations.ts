@@ -2,7 +2,7 @@ import { mutation, query } from "../_generated/server";
 import { ConvexError, v } from "convex/values";
 import { supportAgent } from "../system/ai/agents/supportAgent";
 import { saveMessage, type MessageDoc } from "@convex-dev/agent";
-import { components } from "../_generated/api";
+import { components, internal } from "../_generated/api";
 import { paginationOptsValidator } from "convex/server";
 
 export const getMany = query({
@@ -114,6 +114,10 @@ export const create = mutation({
         message: "Session not authorized for this organization",
       });
     }
+    // This refreshes the contact session if it is close to expiry
+    await ctx.runMutation(internal.system.contactSessions.refresh, {
+      contactSessionId: args.contactSessionId,
+    });
 
     const widgetSettings = await ctx.db
       .query("widgetSettings")

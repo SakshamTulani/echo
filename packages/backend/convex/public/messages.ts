@@ -46,8 +46,22 @@ export const create = action({
         message: "Conversation already resolved",
       });
     }
-    // TODO: implement subscription check
-    const shouldTriggerAgent = conversation.status === "unresolved";
+
+    // This refreshes the contact session if it is close to expiry
+    await ctx.runMutation(internal.system.contactSessions.refresh, {
+      contactSessionId: args.contactSessionId,
+    });
+
+    // This checks if the subscription is active
+    const subscription = await ctx.runQuery(
+      internal.system.subscriptions.getByOrganizationId,
+      {
+        organizationId: conversation.organizationId,
+      },
+    );
+
+    const shouldTriggerAgent =
+      conversation.status === "unresolved" && subscription?.status === "active";
     if (shouldTriggerAgent) {
       await supportAgent.generateText(
         ctx,

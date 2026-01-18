@@ -24,8 +24,6 @@ export const upsert = mutation({
         message: "Organization not found",
       });
     }
-    // TODO : check for subscription
-
     await ctx.scheduler.runAfter(0, internal.system.secrets.upsert, {
       organizationId,
       service: args.service,
