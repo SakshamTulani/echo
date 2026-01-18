@@ -13,7 +13,7 @@ import { CheckCircleIcon, PhoneIcon, XCircleIcon } from "lucide-react";
 import { Badge } from "@workspace/ui/components/badge";
 
 export const VapiPhoneNumberTab = () => {
-  const { data: phoneNumber, isLoading, error } = useVapiPhoneNumbers();
+  const { data: phoneNumbers, isLoading, error } = useVapiPhoneNumbers();
 
   return (
     <div className="border-t bg-background">
@@ -49,7 +49,7 @@ export const VapiPhoneNumberTab = () => {
                 </TableRow>
               );
             }
-            if (phoneNumber.length === 0) {
+            if (phoneNumbers.length === 0) {
               return (
                 <TableRow>
                   <TableCell
@@ -60,7 +60,7 @@ export const VapiPhoneNumberTab = () => {
                 </TableRow>
               );
             }
-            return phoneNumber.map((phoneNumber) => (
+            return phoneNumbers.map((phoneNumber) => (
               <TableRow className="hover:bg-muted/50" key={phoneNumber.id}>
                 <TableCell className="px-6 py-4">
                   <div className="flex items-center gap-3">
