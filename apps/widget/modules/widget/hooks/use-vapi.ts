@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Vapi from "@vapi-ai/web";
 import { useAtomValue } from "jotai";
 import { vapiSecretsAtom, widgetSettingsAtom } from "../atoms/widget-atoms";
